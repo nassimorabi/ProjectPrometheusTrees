@@ -7,78 +7,198 @@ struct TreeNode {
     TreeNode* right;
 };
 
-// Function to create a new node
+// ============================
+// 1. CREATE a BST
+// ============================
+
+// Create a new node
 TreeNode* createNode(int value) {
     return new TreeNode{ value, nullptr, nullptr };
 }
 
-// Insert function for BST
+// Insert into BST
 TreeNode* insert(TreeNode* root, int value) {
-    if (root == nullptr) {
-        return createNode(value);
-    }
+    if (root == nullptr) return createNode(value);
 
-    if (value < root->val) {
+    if (value < root->val)
         root->left = insert(root->left, value);
-    }
-    else if (value > root->val) {
+    else if (value > root->val)
         root->right = insert(root->right, value);
-    }
 
     return root;
 }
 
-// In-order Traversal (Left ? Root ? Right)
+// ============================
+// 2. TRAVERSALS
+// ============================
+
+
+// In-order Traversal (Left, Root, Right)
 void inorder(TreeNode* root) {
-    if (root == nullptr) return;
-    inorder(root->left);
-    cout << root->val << " ";
-    inorder(root->right);
+    if (root != nullptr) {
+        inorder(root->left);
+        cout << root->val << " ";
+        inorder(root->right);
+    }
 }
 
-// Pre-order Traversal (Root ? Left ? Right)
+// Pre-order Traversal (Root, Left, Right)
 void preorder(TreeNode* root) {
-    if (root == nullptr) return;
-    cout << root->val << " ";
-    preorder(root->left);
-    preorder(root->right);
+    if (root != nullptr) {
+        cout << root->val << " ";
+        preorder(root->left);
+        preorder(root->right);
+    }
 }
 
-// Post-order Traversal (Left ? Right ? Root)
+// Post-order Traversal (Left, Right, Root)
 void postorder(TreeNode* root) {
-    if (root == nullptr) return;
-    postorder(root->left);
-    postorder(root->right);
-    cout << root->val << " ";
+    if (root != nullptr) {
+        postorder(root->left);
+        postorder(root->right);
+        cout << root->val << " ";
+    }
 }
+
+
+// ============================
+// 3. FIND MIN / MAX
+// ============================
+
+/*
+TreeNode* findMin(TreeNode* root) {
+    while (root && root->left != nullptr) {
+        root = root->left;
+    }
+    return root;
+}
+
+TreeNode* findMax(TreeNode* root) {
+    while (root && root->right != nullptr) {
+        root = root->right;
+    }
+    return root;
+}
+*/
+
+// ============================
+// 4. SEARCH
+// ============================
+
+/*
+TreeNode* search(TreeNode* root, int key) {
+    if (root == nullptr || root->val == key)
+        return root;
+
+    if (key < root->val)
+        return search(root->left, key);
+    else
+        return search(root->right, key);
+}
+*/
+
+// ============================
+// 5. DELETE
+// ============================
+
+/*
+TreeNode* deleteNode(TreeNode* root, int key) {
+    if (root == nullptr) return root;
+
+    if (key < root->val) {
+        root->left = deleteNode(root->left, key);
+    }
+    else if (key > root->val) {
+        root->right = deleteNode(root->right, key);
+    }
+    else {
+        // Case 1: No child
+        if (root->left == nullptr && root->right == nullptr) {
+            delete root;
+            return nullptr;
+        }
+        // Case 2: One child
+        else if (root->left == nullptr) {
+            TreeNode* temp = root->right;
+            delete root;
+            return temp;
+        }
+        else if (root->right == nullptr) {
+            TreeNode* temp = root->left;
+            delete root;
+            return temp;
+        }
+        // Case 3: Two children
+        else {
+            TreeNode* temp = root->right;
+            while (temp->left != nullptr) temp = temp->left; // find min in right subtree
+            root->val = temp->val;
+            root->right = deleteNode(root->right, temp->val);
+        }
+    }
+    return root;
+}
+*/
 
 int main() {
-    int n;
+    TreeNode* root = nullptr;
+    int n, value;
+
     cout << "Enter number of nodes: ";
     cin >> n;
 
-    TreeNode* root = nullptr;
-
     for (int i = 0; i < n; i++) {
-        int value;
         cout << "Enter value for node " << i << ": ";
         cin >> value;
         root = insert(root, value);
     }
 
-    cout << "\nTree Traversals:\n";
+    // ============================
+    // Uncomment features step by step
+    // ============================
 
-    cout << "In-order   : ";
-    inorder(root);    // Comment/uncomment to showcase
-    cout << endl;
+    // 2. Traversals
+    
+    cout << "\nIn-order: ";
+    inorder(root);
 
-    cout << "Pre-order  : ";
-    preorder(root);   // Comment/uncomment to showcase
-    cout << endl;
+    cout << "\nPre-order: ";
+    preorder(root);
 
-    cout << "Post-order : ";
-    postorder(root);  // Comment/uncomment to showcase
+    cout << "\nPost-order: ";
+    postorder(root);
     cout << endl;
+    
+
+    // 3. Find Min/Max
+    /*
+    TreeNode* minNode = findMin(root);
+    TreeNode* maxNode = findMax(root);
+    if (minNode) cout << "\nMinimum value: " << minNode->val << endl;
+    if (maxNode) cout << "Maximum value: " << maxNode->val << endl;
+    */
+
+    // 4. Search
+    /*
+    int key;
+    cout << "\nEnter value to search: ";
+    cin >> key;
+    TreeNode* found = search(root, key);
+    if (found) cout << key << " found in BST.\n";
+    else cout << key << " not found in BST.\n";
+    */
+
+    // 5. Delete
+    /*
+    int del;
+    cout << "\nEnter value to delete: ";
+    cin >> del;
+    root = deleteNode(root, del);
+
+    cout << "In-order after deletion: ";
+    inorder(root);
+    cout << endl;
+    */
 
     return 0;
 }

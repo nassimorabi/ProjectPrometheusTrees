@@ -127,10 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Lesson Flow.cpp" />
     <ClCompile Include="Traversing a BST.cpp" />
-    <ClCompile Include="Searching in the BST.cpp" />
-    <ClCompile Include="Deleting a Node in BST.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
